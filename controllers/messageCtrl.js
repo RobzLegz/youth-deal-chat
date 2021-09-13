@@ -1,6 +1,5 @@
 const messageHash = process.env.MESSAGE_HASH;
 
-
 const Messages = require("../models/messageModel");
 const Chats = require("../models/chatModel");
 const cryptr = require("cryptr");
