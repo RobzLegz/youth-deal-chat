@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const messageCtrl = require("../controllers/messageCtrl");
 
-router.post("/new", messageCtrl.new);
-router.get("/chat/:chatID", messageCtrl.getChatMessages);
-
+router.post("/", messageCtrl.new);
+router.get("/:chatID", messageCtrl.getChatMessages);
+router.put("/:id", messageCtrl.updateMessage);
+router.delete("/:id", messageCtrl.deleteMessage);
 
 module.exports = router;

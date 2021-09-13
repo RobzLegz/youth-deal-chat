@@ -63,6 +63,44 @@ const chatCtrl = {
             return res.status(500).json({msg: err.message});
         }
     },
+    updateMessage: async (req, res) => {
+        try {
+            const {text} = req.body;
+ 
+            const messageID = req.params.id;
+
+            const testSearchMessage = await Messages.findById({_id: messageID});
+
+            if(!testSearchMessage){
+                return res.status(400).json({msg: "no message found"})
+            }
+
+            await Messages.findByIdAndUpdate({_id: messageID}, {
+                text: hashMessage(text)
+            });
+
+            res.json({msg: "update success"});
+        } catch (err) {
+            return res.status(500).json({msg: err.message});
+        }
+    },
+    deleteMessage: async (req, res) => {
+        try {
+            const messageID = req.params.id;
+
+            const testSearchMessage = await Messages.findById({_id: messageID});
+
+            if(!testSearchMessage){
+                return res.status(400).json({msg: "no message found"})
+            }
+
+            await Messages.findByIdAndDelete({_id: messageID});
+
+            res.json({msg: "delete success"});
+        } catch (err) {
+            return res.status(500).json({msg: err.message});
+        }
+    },
 };
 
 module.exports = chatCtrl;
