@@ -16,6 +16,7 @@ app.use(fileUpload({
 
 //routes
 app.use("/chat", require("./routes/chatRouter"));
+app.use("/message", require("./routes/messageRouter"));
 
 //mongodb
 const URI = process.env.MONGODB_URL;
