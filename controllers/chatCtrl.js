@@ -1,7 +1,5 @@
 const Chats = require("../models/chatModel");
 
-
-
 const chatCtrl = {
     new: async (req, res) => {
         try {
@@ -21,7 +19,7 @@ const chatCtrl = {
     getUserChats: async (req, res) => {
         try {
             const usersChats = await Chats.find({
-                users: { $in: [req.params.accessToken]}
+                users: { $in: [parseInt(req.params.accessToken)] },
             });
 
             res.json(usersChats);
