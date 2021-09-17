@@ -1,4 +1,5 @@
 const Chats = require("../models/chatModel");
+const { v4: uuidv4 } = require('uuid');
 
 const chatCtrl = {
     new: async (req, res) => {
@@ -6,7 +7,7 @@ const chatCtrl = {
             const {senderAccesstoken, receiverAccessToken} = req.body;
 
             const newChat = new Chats({
-                users: [senderAccesstoken, receiverAccessToken]
+                users: [{user: senderAccesstoken.toString(), unique: uuidv4()}, {user: receiverAccessToken.toString(), unique: uuidv4()}]
             });
 
             await newChat.save();
@@ -18,11 +19,27 @@ const chatCtrl = {
     },
     getUserChats: async (req, res) => {
         try {
-            const usersChats = await Chats.find({
-                users: { $in: [parseInt(req.params.accessToken)] },
+            let userChats = [];
+
+            const allChats = await Chats.find();
+            allChats.forEach((chat) => {
+                chat.users.forEach((user) => {
+                    if(user.user === req.params.accessToken){
+                        const pushData = {
+                            users: [
+                                chat.users[0].user,
+                                chat.users[1].user,
+                            ],
+                            _id: chat._id,
+                            createdAt: chat.createdAt,
+                            updatedAt: chat.updatedAt
+                        }
+                        userChats.push(pushData);
+                    }
+                });
             });
 
-            res.json(usersChats);
+            res.json(userChats);
         } catch (err) {
             return res.status(500).json({msg: err.message});
         }
