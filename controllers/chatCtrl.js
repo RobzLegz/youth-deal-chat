@@ -1,4 +1,5 @@
 const Chats = require("../models/chatModel");
+const Messages = require("../models/messageModel");
 const { v4: uuidv4 } = require('uuid');
 
 const chatCtrl = {
@@ -59,7 +60,15 @@ const chatCtrl = {
         try {
             const id = req.params.id;
 
-            await Chats.findByIdAndDelete({_id: id});
+            const chatMessages = await Messages.find({chatID: id});
+
+            if(chatMessages){
+                chatMessages.forEach((message) => {
+                    console.log(message);
+                })
+            }
+
+            // await Chats.findByIdAndDelete({_id: id});
 
             res.json({msg: "delete success"});
         } catch (err) {

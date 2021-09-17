@@ -36,7 +36,7 @@ const chatCtrl = {
 
             await newMesage.save();
 
-            res.json({msg: "Message sent!"});
+            res.json({msg: "Message sent"});
         } catch (err) {
             return res.status(500).json({msg: err.message});
         }
@@ -51,7 +51,7 @@ const chatCtrl = {
                 res.status(400).json({msg: "invalid chat id"})
             }
 
-            const chatMessages = await Messages.find({chatID: chatID}).sort({createdAt: -1});
+            const chatMessages = await Messages.find({chatID: chatID}).sort({createdAt: 1});
 
             chatMessages.forEach((messageData) => {
                 messageData.text = unhashMessage(messageData.text);
