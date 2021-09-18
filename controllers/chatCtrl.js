@@ -63,12 +63,12 @@ const chatCtrl = {
             const chatMessages = await Messages.find({chatID: id});
 
             if(chatMessages){
-                chatMessages.forEach((message) => {
-                    console.log(message);
-                })
+                chatMessages.forEach(async (message) => {
+                    await Messages.findByIdAndDelete({_id: message._id});
+                });
             }
 
-            // await Chats.findByIdAndDelete({_id: id});
+            await Chats.findByIdAndDelete({_id: id});
 
             res.json({msg: "delete success"});
         } catch (err) {
