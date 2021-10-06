@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 
-const themeSchema = new mongoose.Schema({
+const proffessionSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true,
         required: true,
     },
-    type: {
-        type: Number,
+    tags: {
+        type: Array,
         required: true,
     },
-    info: {
+    skills: {
         type: String,
         required: true,
     },
@@ -18,4 +18,4 @@ const themeSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model("Themes", themeSchema);
+module.exports = mongoose.model("Proffesions", proffessionSchema);
